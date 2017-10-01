@@ -6,13 +6,17 @@
 #
 # Creates multi node hadoop cluster on Docker
 
-FROM ankitkamboj/hadoop-base
+FROM ankitkamboj/hadoop-base-ha
 MAINTAINER ankitkamboj
 
 
 ADD entrypoint.sh /root/entrypoint.sh
 RUN chown root:root /root/entrypoint.sh
 RUN chmod a+x /root/entrypoint.sh
+
+ADD scripts/* /root/scripts/
+RUN chown root:root /root/scripts
+RUN chmod a+x /root/scripts/*.sh
 
 # CMD ["/bin/bash"]
 CMD ["/root/entrypoint.sh", "-d"]

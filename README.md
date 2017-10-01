@@ -1,7 +1,8 @@
-This is an initial multinode hadoop cluster setup, with namenode and secondary namenode.
+The HA Mode setup of the hadoop cluster
 
-The namenode runs at 'master'
-The secondary namenode runs at 'smaster'
+The cluster name is: hdcluster
+The namenode nn1 is: master
+The namenode nn2 is: smaster
 
-Both 'master' and 'smaster' also acts as datanodes.
+The shared edits done using journal nodes, named: master, smaster, slave1
 

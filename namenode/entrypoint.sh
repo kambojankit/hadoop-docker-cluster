@@ -1,8 +1,11 @@
 #!/bin/bash
-
 service ssh start
+
+# Initialise the journal node
+$HADOOP_HOME/sbin/hadoop-daemon.sh start journalnode
+
 $HADOOP_HOME/bin/hdfs namenode -format 
-$HADOOP_HOME/sbin/start-dfs.sh
+$HADOOP_HOME/bin/hdfs namenode -initializeSharedEdits
 
 if [[ $1 == "-d" ]]; then
     while true; do sleep 1000; done
