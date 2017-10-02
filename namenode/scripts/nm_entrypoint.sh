@@ -9,12 +9,14 @@ $HADOOP_HOME/sbin/hadoop-daemon.sh start journalnode
 #Adding zookeeper server id for master, to be be in sync with configuration provided in zoo.cfg 
 mkdir /tmp/zookeeper
 echo '1' > /tmp/zookeeper/myid
-zkServer.sh starts
+zkServer.sh start
 
 $HADOOP_HOME/bin/hdfs namenode -format -force
 $HADOOP_HOME/bin/hdfs namenode -initializeSharedEdits -force
 
 $HADOOP_HOME/sbin/hadoop-daemon.sh start namenode
+
+$HADOOP_HOME/sbin/hadoop-daemon.sh start datanode
 
 if [[ $1 == "-d" ]]; then
     while true; do sleep 1000; done

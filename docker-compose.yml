@@ -7,7 +7,14 @@ services:
       - /root/scripts/sl_entrypoint.sh
       - -d
     container_name: "slave1"
-  
+    
+  slave2:
+    build: ./namenode/
+    entrypoint: 
+      - /root/scripts/slave_entrypoint.sh
+      - -d
+    container_name: "slave2"
+
   master:
     build: ./namenode/
     entrypoint: 

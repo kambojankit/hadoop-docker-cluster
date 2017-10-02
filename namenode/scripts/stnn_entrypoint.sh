@@ -15,21 +15,7 @@ $HADOOP_HOME/sbin/hadoop-daemon.sh start namenode
 
 $HADOOP_HOME/bin/hdfs zkfc -formatZK -force
 
-USERNAME=root
-NM_HOSTS="master"
-SCRIPT_NM="$HADOOP_HOME/sbin/hadoop-daemon.sh --script $HADOOP_HOME/bin/hdfs start zkfc"
-for HOSTNAME in ${NM_HOSTS} ; do
-    ssh -o StrictHostKeyChecking=no ${USERNAME}@${HOSTNAME} "${SCRIPT_NM}"
-    echo 'Started zkfc on master ================================================================================================='
-done
-
 $HADOOP_HOME/sbin/hadoop-daemon.sh --script $HADOOP_HOME/bin/hdfs start zkfc
-
-SLAVES="master slave1"
-SCRIPT="$HADOOP_HOME/sbin/hadoop-daemon.sh start datanode"
-for SLAVENAME in ${SLAVES} ; do
-    ssh -o StrictHostKeyChecking=no ${USERNAME}@${SLAVENAME} "${SCRIPT}"
-done
 
 echo 'All Services are started'
 
