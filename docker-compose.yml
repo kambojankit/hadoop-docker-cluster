@@ -4,16 +4,26 @@ services:
   slave1:
     build: ./namenode/
     entrypoint: 
-      - /root/scripts/sl_entrypoint.sh
+      - /root/scripts/journal_entrypoint.sh
       - -d
+      - "1"
     container_name: "slave1"
-    
+
   slave2:
     build: ./namenode/
     entrypoint: 
-      - /root/scripts/slave_entrypoint.sh
+      - /root/scripts/journal_entrypoint.sh
       - -d
+      - "2"
     container_name: "slave2"
+
+  slave3:
+    build: ./namenode/
+    entrypoint: 
+      - /root/scripts/journal_entrypoint.sh
+      - -d
+      - "3"
+    container_name: "slave3"
 
   master:
     build: ./namenode/
@@ -22,6 +32,8 @@ services:
       - -d
     depends_on: 
       - "slave1"
+      - "slave2"
+      - "slave3"
     ports:
       - "8088:8088"
       - "50070:50070"
@@ -35,6 +47,9 @@ services:
       - -d
     depends_on: 
       - "master"
+      - "slave1"
+      - "slave2"
+      - "slave3"
     ports:
       - "50091:50091"
       - "50090:50090" 

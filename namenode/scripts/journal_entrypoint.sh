@@ -1,14 +1,13 @@
 #!/bin/bash
 
-#Initialise zookeeper server
-# zkServer.sh start
+#Journal and Zookeeper Server Node 
 
 # Initialise the journal node
 $HADOOP_HOME/sbin/hadoop-daemon.sh start journalnode
 
 #Adding zookeeper server id for master, to be be in sync with configuration provided in zoo.cfg 
 mkdir /tmp/zookeeper
-echo '3' > /tmp/zookeeper/myid
+echo $2 > /tmp/zookeeper/myid
 zkServer.sh start
 
 $HADOOP_HOME/sbin/hadoop-daemon.sh start datanode

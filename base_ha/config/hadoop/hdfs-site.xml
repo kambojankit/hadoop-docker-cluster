@@ -71,7 +71,7 @@
   </property>
   <property>
   	<name>dfs.namenode.shared.edits.dir</name>
-  	<value>qjournal://slave1:8485;smaster:8485;master:8485/hdcluster</value>
+  	<value>qjournal://slave3:8485;slave2:8485;slave1:8485/hdcluster</value>
   </property>
   <property>
       <name>dfs.ha.fencing.methods</name>
