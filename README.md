@@ -4,5 +4,12 @@ The cluster name is: hdcluster
 The namenode nn1 is: master
 The namenode nn2 is: smaster
 
-The shared edits done using journal nodes, named: master, smaster, slave1
+Journal, Zookeeper and Data nodes are: slave1, slave2 and slave3
 
+#Starting the cluster.
+- docker build -t ankitkamboj/hadoop-base-ha ./base_ha
+- docker-compose build
+- docker-compose up
+
+#Login to master node 
+- docker exec -it master /bin/bash

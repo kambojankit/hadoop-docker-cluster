@@ -1,6 +1,7 @@
 #!/bin/bash
 
 #Script to initialise standby node. 
+service ssh start
 $HADOOP_HOME/bin/hdfs namenode -bootstrapStandby -force
 
 $HADOOP_HOME/sbin/hadoop-daemon.sh start namenode
