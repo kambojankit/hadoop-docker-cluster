@@ -1,0 +1,60 @@
+version: '2'
+
+services:
+  slave1:
+    build: ./namenode_ha/
+    entrypoint: 
+      - /root/scripts/journal_entrypoint.sh
+      - -d
+      - "1"
+    container_name: "slave1"
+
+  slave2:
+    build: ./namenode_ha/
+    entrypoint: 
+      - /root/scripts/journal_entrypoint.sh
+      - -d
+      - "2"
+    depends_on: 
+      - "slave1"
+    container_name: "slave2"
+
+  slave3:
+    build: ./namenode_ha/
+    entrypoint: 
+      - /root/scripts/journal_entrypoint.sh
+      - -d
+      - "3"
+    depends_on: 
+      - "slave1"
+    container_name: "slave3"
+
+  master:
+    build: ./namenode_ha/
+    entrypoint: 
+      - /root/scripts/nm_entrypoint.sh
+      - -d
+    depends_on: 
+      - "slave3"
+    ports:
+      - "8088:8088"
+      - "50070:50070"
+      - "2122:2122"
+    container_name: "master"
+  
+  smaster:
+    build: ./namenode_ha/
+    entrypoint: 
+      - /root/scripts/stnn_entrypoint.sh
+      - -d
+    depends_on: 
+      - "master"
+      - "slave1"
+      - "slave2"
+      - "slave3"
+    ports:
+      - "50091:50091"
+      - "50090:50090" 
+      - "8098:8088"
+      - "50080:50070"
+    container_name: "smaster"

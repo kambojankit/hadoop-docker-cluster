@@ -2,59 +2,74 @@ version: '2'
 
 services:
   slave1:
-    build: ./namenode/
+    build: ./base_fed/
     entrypoint: 
-      - /root/scripts/journal_entrypoint.sh
+      - /root/scripts/slave_entrypoint.sh
       - -d
-      - "1"
     container_name: "slave1"
 
   slave2:
-    build: ./namenode/
+    build: ./base_fed/
     entrypoint: 
-      - /root/scripts/journal_entrypoint.sh
+      - /root/scripts/slave_entrypoint.sh
       - -d
-      - "2"
     depends_on: 
       - "slave1"
     container_name: "slave2"
 
   slave3:
-    build: ./namenode/
+    build: ./base_fed/
     entrypoint: 
-      - /root/scripts/journal_entrypoint.sh
+      - /root/scripts/slave_entrypoint.sh
       - -d
-      - "3"
     depends_on: 
       - "slave1"
     container_name: "slave3"
 
-  master:
-    build: ./namenode/
+  dvmaster:
+    build: ./base_fed/
     entrypoint: 
-      - /root/scripts/nm_entrypoint.sh
+      - /root/scripts/name_entrypoint.sh
       - -d
+      - dvmaster
     depends_on: 
       - "slave3"
     ports:
-      - "8088:8088"
       - "50070:50070"
-      - "2122:2122"
-    container_name: "master"
+    container_name: "dvmaster"
   
-  smaster:
-    build: ./namenode/
+  dvsecond:
+    build: ./base_fed/
     entrypoint: 
-      - /root/scripts/stnn_entrypoint.sh
+      - /root/scripts/second_entrypoint.sh
       - -d
+      - dvmaster
     depends_on: 
-      - "master"
-      - "slave1"
-      - "slave2"
+      - "dvmaster"
+    ports:
+      - "50090:50090"
+    container_name: "dvsecond"
+  
+  qamaster:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/name_entrypoint.sh
+      - -d
+      - qamaster
+    depends_on: 
       - "slave3"
     ports:
-      - "50091:50091"
-      - "50090:50090" 
-      - "8098:8088"
-      - "50080:50070"
-    container_name: "smaster"
+      - "50170:50070"
+    container_name: "qamaster"
+
+  qasecond:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/second_entrypoint.sh
+      - -d
+      - qamaster
+    depends_on: 
+      - "qamaster"
+    ports:
+      - "50190:50090"
+    container_name: "qasecond"
