@@ -6,10 +6,10 @@ The namenode nn2 is: smaster
 
 Journal, Zookeeper and Data nodes are: slave1, slave2 and slave3
 
-#Starting the cluster.
+### Starting the cluster.
 - docker build -t ankitkamboj/hadoop-base-ha ./base_ha
 - docker-compose build
 - docker-compose up
 
-#Login to master node 
+### Login to master node 
 - docker exec -it master /bin/bash
