@@ -1,0 +1,75 @@
+version: '2'
+
+services:
+  slave1:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/slave_entrypoint.sh
+      - -d
+    container_name: "slave1"
+
+  slave2:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/slave_entrypoint.sh
+      - -d
+    depends_on: 
+      - "slave1"
+    container_name: "slave2"
+
+  slave3:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/slave_entrypoint.sh
+      - -d
+    depends_on: 
+      - "slave1"
+    container_name: "slave3"
+
+  dvmaster:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/name_entrypoint.sh
+      - -d
+      - dvmaster
+    depends_on: 
+      - "slave3"
+    ports:
+      - "50070:50070"
+    container_name: "dvmaster"
+  
+  dvsecond:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/second_entrypoint.sh
+      - -d
+      - dvmaster
+    depends_on: 
+      - "dvmaster"
+    ports:
+      - "50090:50090"
+    container_name: "dvsecond"
+  
+  qamaster:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/name_entrypoint.sh
+      - -d
+      - qamaster
+    depends_on: 
+      - "slave3"
+    ports:
+      - "50170:50070"
+    container_name: "qamaster"
+
+  qasecond:
+    build: ./base_fed/
+    entrypoint: 
+      - /root/scripts/second_entrypoint.sh
+      - -d
+      - qamaster
+    depends_on: 
+      - "qamaster"
+    ports:
+      - "50190:50090"
+    container_name: "qasecond"

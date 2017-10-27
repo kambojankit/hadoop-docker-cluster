@@ -1,4 +1,5 @@
 #!/bin/bash
+# Initialises a pure data node
 service ssh start
 $HADOOP_HOME/sbin/hadoop-daemon.sh start datanode
 

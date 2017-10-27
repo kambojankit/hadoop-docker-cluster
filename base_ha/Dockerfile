@@ -11,7 +11,7 @@ MAINTAINER ankitkamboj
 # Add the Zookeeper package contents into /usr/local
 ADD ./packages/zookeeper /usr/local/zookeeper/
 
-# Update hadoop config files and mark executables
+# Update hadoop config files and update permission for executables
 ADD ./config/hadoop/* /usr/local/hadoop/etc/hadoop/
 RUN chmod +x /usr/local/hadoop/etc/hadoop/*-env.sh
 

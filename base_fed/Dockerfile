@@ -8,7 +8,7 @@
 FROM ankitkamboj/hadoop-base
 MAINTAINER ankitkamboj
 
-# Update hadoop config files and mark executables
+# Update hadoop config files and update permission for executables
 ADD ./config/hadoop/* /usr/local/hadoop/etc/hadoop/
 RUN chmod +x /usr/local/hadoop/etc/hadoop/*-env.sh
 

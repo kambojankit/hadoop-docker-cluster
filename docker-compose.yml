@@ -1,75 +1,55 @@
-version: '2'
+version: '3'
 
 services:
   slave1:
-    build: ./base_fed/
-    entrypoint: 
-      - /root/scripts/slave_entrypoint.sh
+    image: ankitkamboj/hadoop-ha
+    entrypoint:
+      - /root/scripts/journal_entrypoint.sh
       - -d
-    container_name: "slave1"
+      - "1"
 
   slave2:
-    build: ./base_fed/
+    image: ankitkamboj/hadoop-ha
     entrypoint: 
-      - /root/scripts/slave_entrypoint.sh
+      - /root/scripts/journal_entrypoint.sh
       - -d
+      - "2"
     depends_on: 
       - "slave1"
-    container_name: "slave2"
 
   slave3:
-    build: ./base_fed/
+    image: ankitkamboj/hadoop-ha
     entrypoint: 
-      - /root/scripts/slave_entrypoint.sh
+      - /root/scripts/journal_entrypoint.sh
       - -d
+      - "3"
     depends_on: 
       - "slave1"
-    container_name: "slave3"
 
-  dvmaster:
-    build: ./base_fed/
+  master:
+    image: ankitkamboj/hadoop-ha
     entrypoint: 
-      - /root/scripts/name_entrypoint.sh
+      - /root/scripts/nm_entrypoint.sh
       - -d
-      - dvmaster
     depends_on: 
       - "slave3"
     ports:
+      - "8088:8088"
       - "50070:50070"
-    container_name: "dvmaster"
-  
-  dvsecond:
-    build: ./base_fed/
+      - "2122:2122"
+
+  smaster:
+    image: ankitkamboj/hadoop-ha
     entrypoint: 
-      - /root/scripts/second_entrypoint.sh
+      - /root/scripts/stnn_entrypoint.sh
       - -d
-      - dvmaster
     depends_on: 
-      - "dvmaster"
-    ports:
-      - "50090:50090"
-    container_name: "dvsecond"
-  
-  qamaster:
-    build: ./base_fed/
-    entrypoint: 
-      - /root/scripts/name_entrypoint.sh
-      - -d
-      - qamaster
-    depends_on: 
+      - "master"
+      - "slave1"
+      - "slave2"
       - "slave3"
     ports:
-      - "50170:50070"
-    container_name: "qamaster"
-
-  qasecond:
-    build: ./base_fed/
-    entrypoint: 
-      - /root/scripts/second_entrypoint.sh
-      - -d
-      - qamaster
-    depends_on: 
-      - "qamaster"
-    ports:
-      - "50190:50090"
-    container_name: "qasecond"
+      - "50091:50091"
+      - "50090:50090" 
+      - "8098:8088"
+      - "50080:50070"
