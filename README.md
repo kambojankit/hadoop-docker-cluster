@@ -8,7 +8,7 @@ Journal, Zookeeper and Data nodes are: slave1, slave2 and slave3
 
 ### Building Hadoop Baseline [./base]
 - ./base directory contains the baseline hadoop, with hadoop distribution setup and required ports exposed. 
-- The docker image using this docker file is build by the name 'hadoop-base' under user 'ankitkamboj' using below command ```docker build -t ankitkamboj/hadoop-base ./base```.
+- The docker image using this docker file is build by the name 'hadoop-base' under user 'ankitkamboj' using below command ```docker build -t ankitkamboj/hadoop-base ./base```
 
 ### Setup (High Availability Mode) [./base_ha]
 - ```docker build -t ankitkamboj/hadoop-base-ha ./base_ha```
